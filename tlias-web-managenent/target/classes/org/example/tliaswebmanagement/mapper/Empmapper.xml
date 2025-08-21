@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.tliaswebmanagement.mapper.EmpMapper">
+<!--concat字符串拼接,如果直接定义模糊查询的'%#{name}%'那么会将他识别成一个字符串，那么就会造成四个参数传进去只有三个位置-->
+    <!--所以用concat就可以解决这个问题-->
+    <select id="list" resultType="org.example.tliaswebmanagement.pojo.Emp">
+        select e.*,d.name from emp e left join dept d on e.dept_id = d.id
+            <where>
+                <if test="name != null and name != ''">
+                    e.name like concat('%',#{name},'%')
+                </if>
+                <if test="gender != null">
+                    and e.gender = #{gender}
+                </if>
+                <if test="begin != null and end != null">
+                    and e.entry_date between #{begin} and #{end}
+                </if>
+            </where>
+        order by e.update_time desc
+    </select>
+
+</mapper>
