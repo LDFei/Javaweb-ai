@@ -35,8 +35,9 @@ public interface EmpMapper {
 ////                          LocalDate begin, LocalDate end);
     public List<Emp> list (EmpQueryParam empQueryParam);
 //新增员工基本信息
+    /*因为不知道插入的id所以要获取，这个注解自动把获取的id赋值给emp中的id*/
     @Options(useGeneratedKeys = true,keyProperty = "id")//获取到生成的主键--mybites主键返回
-    @Insert("insert into emp(username, name, gender, phone, job, salary, image, entry_date, dept_id, create_time, update_time)\n" +
-            "    values (#{username},#{name},#{gender},#{phone},#{job},#{salary},#{image},#{entryDate},#{deptId},#{createTime},#{updateTime})")
+    @Insert("insert into emp(username, name, gender, phone, job, salary, image, entry_date, dept_id, create_time, update_time)" +
+            "    values (#{username},#{name},#{gender},#{phone},#{job},#{salary},#{image},#{entryDate},#{deptId},#{createTime},#{updateTime})")//注意属性名字改成驼峰命名
     void insert(Emp emp);
 }

@@ -41,10 +41,12 @@ public class EmpController {
     }
     /*新增员工*/
     @PostMapping
-    public Result save(@RequestBody Emp emp)
+    public Result save(@RequestBody Emp emp)//接收前端的json数据然后给我的对象里面的变量赋值，需要@RequestBody这个注解
     {
         log.info("新增员工:{}",emp);
+
         empService.save(emp);
+
         return Result.success();
     }
 

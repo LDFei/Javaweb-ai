@@ -8,8 +8,11 @@
         insert  into emp_expr(emp_id,begin,end,company,job)
         values
         /*separator是添加一个,因为是多次去添加员工经验，每个经验都要分隔开，但是你编写语句的时候又不能直接写，上去所以要用它*/
+        /*item是集合遍历出来的每个元素*/
+
         <foreach collection="exprList" item="expr" separator=",">
             (#{expr.empId},#{expr.begin},#{expr.end},#{expr.company},#{expr.job})
         </foreach>
+
     </insert>
 </mapper>
