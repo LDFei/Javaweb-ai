@@ -12,6 +12,7 @@ import org.example.tliaswebmanagement.service.EmpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
@@ -58,17 +59,21 @@ public class EmpServiceImpl implements EmpService {
         return  new PageResult<Emp>(p.getTotal(),p.getResult());
     }
 
+    @Transactional //事务管理注解
     @Override
     public void save(Emp emp) {
         //保存员工的基本信息
         emp.setCreateTime(LocalDateTime.now());
         emp.setUpdateTime(LocalDateTime.now());
         empMapper.insert(emp);
+
+
         //员工的工作经历信息
         List<EmpExpr> exprList = emp.getExprList();
+        //判断工作经历是否为空：
         if(!CollectionUtils.isEmpty(exprList))
         {
-            //遍历集合为id赋值,
+            //遍历集合为empid赋值,
             exprList.forEach(empExpr->{
                 empExpr.setEmpId(emp.getId());
             });
