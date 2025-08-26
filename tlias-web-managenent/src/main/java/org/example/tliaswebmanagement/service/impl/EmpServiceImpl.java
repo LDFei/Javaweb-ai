@@ -59,7 +59,7 @@ public class EmpServiceImpl implements EmpService {
         return  new PageResult<Emp>(p.getTotal(),p.getResult());
     }
 
-    @Transactional(rollbackFor = {Exception.class}) //事务管理注解 -默认出现运行时异常会出现回滚
+    @Transactional(rollbackFor = {Exception.class}) //事务管理注解 - 默认出现运行时异常会出现回滚，添加了括号里面的代码有异常就会回滚
     @Override
     public void save(Emp emp) {
         //保存员工的基本信息
