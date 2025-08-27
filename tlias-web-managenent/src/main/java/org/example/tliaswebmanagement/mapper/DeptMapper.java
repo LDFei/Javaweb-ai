@@ -4,11 +4,11 @@ import org.apache.ibatis.annotations.*;
 import org.example.tliaswebmanagement.pojo.Dept;
 
 import java.util.List;
-
+//
 @Mapper
 public interface DeptMapper {
 
-    //删除部门代码
+    //删除部门代码,,
     @Delete("delete from dept where id = #{id}")
     public void deleteById(Integer id);
 
