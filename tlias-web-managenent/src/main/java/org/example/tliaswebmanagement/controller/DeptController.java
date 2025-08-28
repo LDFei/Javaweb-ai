@@ -70,7 +70,7 @@ public class DeptController {
     public Result update(@RequestBody Dept dept)
     {
         System.out.println("\n");
-//        System.out.println("修改的部门为:" + dept);
+//        System.out.println("修改的部 门为:" + dept);
         log.info("删除部门的id为:{}" , dept);
         deptService.update(dept);
         System.out.println("\n");
