@@ -15,6 +15,7 @@ import java.util.List;
 
 /*
 * 部门信息的接口
+* 接收前端相应层
 * */
 public class DeptController {
 
