@@ -3,11 +3,10 @@ package org.example.tliaswebmanagement.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.example.tliaswebmanagement.mapper.EmpExprMapper;
+import org.example.tliaswebmanagement.mapper.EmpLogMapper;
 import org.example.tliaswebmanagement.mapper.EmpMapper;
-import org.example.tliaswebmanagement.pojo.Emp;
-import org.example.tliaswebmanagement.pojo.EmpExpr;
-import org.example.tliaswebmanagement.pojo.EmpQueryParam;
-import org.example.tliaswebmanagement.pojo.PageResult;
+import org.example.tliaswebmanagement.pojo.*;
+import org.example.tliaswebmanagement.service.EmpLogService;
 import org.example.tliaswebmanagement.service.EmpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,6 +26,8 @@ public class EmpServiceImpl implements EmpService {
     @Autowired
     EmpExprMapper empExprMapper;
 
+    @Autowired
+    private EmpLogService empLogService;
     /*————————————————————————————————————————————————————原始分页查询的实现代码——————————————————————————————————-*/
 //    @Override
 //    public PageResult<Emp> page(Integer page, Integer pageSize) {
@@ -59,30 +60,47 @@ public class EmpServiceImpl implements EmpService {
         return  new PageResult<Emp>(p.getTotal(),p.getResult());
     }
 
+    //插入员工的基本信息
     @Transactional(rollbackFor = {Exception.class}) //事务管理注解 - 默认出现运行时异常会出现回滚，添加了括号里面的代码有异常就会回滚
     @Override
     public void save(Emp emp) {
-        //保存员工的基本信息
-        emp.setCreateTime(LocalDateTime.now());
-        emp.setUpdateTime(LocalDateTime.now());
-        empMapper.insert(emp);
+        try {
+            //保存员工的基本信息
+            emp.setCreateTime(LocalDateTime.now());
+            emp.setUpdateTime(LocalDateTime.now());
+            empMapper.insert(emp);
 
 
-        //员工的工作经历信息
-        List<EmpExpr> exprList = emp.getExprList();
-        //判断工作经历是否为空：
-        if(!CollectionUtils.isEmpty(exprList))
-        {
-            //遍历集合为empid赋值,
-            exprList.forEach(empExpr->{
-                empExpr.setEmpId(emp.getId());
-            });
-            empExprMapper.insetBatch(exprList);
+            //员工的工作经历信息
+            List<EmpExpr> exprList = emp.getExprList();
+            //判断工作经历是否为空：
+            if(!CollectionUtils.isEmpty(exprList))
+            {
+                //遍历集合为empid赋值,
+                exprList.forEach(empExpr->{
+                    empExpr.setEmpId(emp.getId());
+                });
+                empExprMapper.insetBatch(exprList);
+            }
+            else
+            {
+                return;
+            }
+        } finally {
+            //记录操作日志
+            EmpLog empLog = new EmpLog(null,LocalDateTime.now(),"新增员工：" + emp);
+            empLogService.insertLog(empLog);
         }
-        else
-        {
-            return;
-        }
+    }
+
+    @Transactional(rollbackFor = {Exception.class})
+    @Override
+    public void delete(List<Integer> ids) {
+        //删除员工的基本信息
+        empMapper.deleteByIds(ids);
+
+        //删除员工工作经历信息:
+        empExprMapper.deleteByEmpIds(ids);
     }
 
 }

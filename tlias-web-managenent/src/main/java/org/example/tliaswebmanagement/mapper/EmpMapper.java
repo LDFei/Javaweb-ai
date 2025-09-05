@@ -40,4 +40,8 @@ public interface EmpMapper {
     @Insert("insert into emp(username, name, gender, phone, job, salary, image, entry_date, dept_id, create_time, update_time)" +
             "    values (#{username},#{name},#{gender},#{phone},#{job},#{salary},#{image},#{entryDate},#{deptId},#{createTime},#{updateTime})")//注意属性名字改成驼峰命名
     void insert(Emp emp);
+
+    //根据id批量删除员工的基本信息
+    void deleteByIds(List<Integer> ids);
+
 }

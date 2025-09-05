@@ -13,8 +13,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
 
@@ -50,4 +54,22 @@ public class EmpController {
         return Result.success();
     }
 
+
+    /*删除员工*/
+    //封装到数组中:
+//    @DeleteMapping
+//    public Result delete(Integer[] ids)
+//    {
+//        log.info("删除员工:{}", Arrays.toString(ids));//这里要把它变成字符串
+//        return Result.success();
+//    }
+
+    //封装到一个list集合中:
+    @DeleteMapping
+    public Result delete(@RequestParam List<Integer> ids)
+    {
+        log.info("删除员工：{}",ids);
+        empService.delete(ids);
+        return Result.success();
+    }
 }

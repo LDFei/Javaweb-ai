@@ -3,7 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.tliaswebmanagement.mapper.EmpMapper">
-<!--concat字符串拼接,如果直接定义模糊查询的'%#{name}%'那么会将他识别成一个字符串，那么就会造成四个参数传进去只有三个位置-->
+    <!--批量删除员工的基本信息-->
+    <!--第一次写的时候忘记在每个id后面添加，导致批量删除失败，而单个删除成功，又因为员工信息和员工经验删除是一个事务两个绑定到一起了，所以两个都要加,逻辑上来说也是要加,的-->
+    <delete id="deleteByIds">
+        delete from emp where id in
+                    <foreach collection="ids" separator="," item="id" open="(" close=")">
+                        #{id}
+                    </foreach>
+    </delete>
+    <!--concat字符串拼接,如果直接定义模糊查询的'%#{name}%'那么会将他识别成一个字符串，那么就会造成四个参数传进去只有三个位置-->
     <!--所以用concat就可以解决这个问题-->
     <select id="list" resultType="org.example.tliaswebmanagement.pojo.Emp">
         select e.*,d.name from emp e left join dept d on e.dept_id = d.id
