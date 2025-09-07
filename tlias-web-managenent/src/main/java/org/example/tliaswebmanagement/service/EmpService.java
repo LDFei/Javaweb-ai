@@ -15,4 +15,11 @@ public interface EmpService {
 
     //批量删除员工的信息
     void delete(List<Integer> ids);
+
+    //回显员工的信息和工作经历
+    Emp getInfo(Integer id);
+
+
+    //修改员工信息：
+    void upDate(Emp emp);
 }

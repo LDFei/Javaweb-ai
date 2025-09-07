@@ -3,6 +3,52 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.tliaswebmanagement.mapper.EmpMapper">
+
+    <!--根据id更新员工的数据-->
+    <update id="updateEmpDynamic">
+        UPDATE emp
+            /*set标签：自动生成set关键字，自动的删除生成之后的逗号*/
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="job != null">
+                job = #{job},
+            </if>
+            <if test="salary != null">
+                salary = #{salary},
+            </if>
+            <if test="image != null and image != ''">
+                image = #{image},
+            </if>
+            <if test="entryDate != null">
+                entry_date = #{entryDate},
+            </if>
+            <if test="deptId != null">
+                dept_id = #{deptId},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateById">
+
+    </update>
     <!--批量删除员工的基本信息-->
     <!--第一次写的时候忘记在每个id后面添加，导致批量删除失败，而单个删除成功，又因为员工信息和员工经验删除是一个事务两个绑定到一起了，所以两个都要加,逻辑上来说也是要加,的-->
     <delete id="deleteByIds">
@@ -27,6 +73,45 @@
                 </if>
             </where>
         order by e.update_time desc
+    </select>
+    <!-- 定义 ResultMap -->
+    <resultMap id="empResultMap" type="org.example.tliaswebmanagement.pojo.Emp">
+        <!-- 映射 emp 表 -->
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+        <result property="gender" column="gender"/>
+        <result property="phone" column="phone"/>
+        <result property="job" column="job"/>
+        <result property="salary" column="salary"/>
+        <result property="image" column="image"/>
+        <result property="entryDate" column="entryDate"/>
+        <result property="deptId" column="deptId"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="deptName" column="deptName"/>
+
+        <!-- 映射 emp_expr 表 (一对多) -->
+        <collection property="exprList" ofType="org.example.tliaswebmanagement.pojo.EmpExpr">
+            <id property="id" column="ee_empid"/>
+            <result property="begin" column="ee_begin"/>
+            <result property="end" column="ee_end"/>
+            <result property="company" column="ee_company"/>
+            <result property="job" column="ee_job"/>
+        </collection>
+    </resultMap>
+    <!--回显员工的工作经历-->
+    <select id ="getById" resultMap="empResultMap">
+        select e.* ,
+               ee.id ee_empid,
+               ee.begin ee_begin,
+               ee.end ee_end,
+               ee.company ee_company,
+               ee.job ee_job
+        from emp e left join emp_expr ee on e.id = ee.emp_id
+        where e.id = #{id};
+
     </select>
 
 </mapper>

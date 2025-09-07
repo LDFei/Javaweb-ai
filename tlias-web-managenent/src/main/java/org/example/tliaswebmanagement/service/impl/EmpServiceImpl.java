@@ -16,6 +16,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -102,5 +103,41 @@ public class EmpServiceImpl implements EmpService {
         //删除员工工作经历信息:
         empExprMapper.deleteByEmpIds(ids);
     }
+
+    //回显员工的工作经历
+    @Override
+    public Emp getInfo(Integer id) {
+        return empMapper.getById(id);
+
+    }
+
+    //修改员工信息(这有bug，因为修改员工基本信息后端修改员工工作经历是在一个事务内，所以如果你不修改员工的工作经历，那么员工的基本信息也更改不了):
+    @Transactional(rollbackFor = {Exception.class})
+    @Override
+    public void upDate(Emp emp) {
+        //1.需要根据id修改员工的基本信息：
+        emp.setUpdateTime(LocalDateTime.now());//先写更新信息的时间
+        empMapper.updateById(emp);
+
+        //2.根据id修改员工的工作经历信息：
+        //2.1先删除员工的工作经历：
+        //真是日了之前引用错方法了引用了员工基本信息删除的方法，结果特么调用一次如果工作经历不改
+        //就删掉基本信息，我还纳闷前端怎么改一下数据库少个记录，bug在这呢fuck
+        empExprMapper.deleteByEmpIds(Arrays.asList(emp.getId()));
+
+        //2.2后添加员工的工作经历：
+        List<EmpExpr> exprList = emp.getExprList();
+        if(!CollectionUtils.isEmpty(exprList)){
+            //这段的代码逻辑是这样，把这个员工的经历删了之后，前端接收到的数据没有id值，
+            //我需要先把这每段的id值给重新复写一下，然后再插入进去
+            exprList.forEach(empExpr -> empExpr.setEmpId(emp.getId()));//为每一段工作经历赋值，赋员工id的值
+
+            empExprMapper.insetBatch(exprList);
+        }
+
+    }
+
+
+
 
 }

@@ -3,7 +3,35 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.tliaswebmanagement.mapper.EmpMapper">
-<!--concat字符串拼接,如果直接定义模糊查询的'%#{name}%'那么会将他识别成一个字符串，那么就会造成四个参数传进去只有三个位置-->
+
+    <!--根据id更新员工的数据-->
+
+    <update id="updateById">
+        UPDATE emp
+        SET
+            username = #{username},
+            password = #{password},
+            name = #{name},
+            gender = #{gender},
+            phone = #{phone},
+            job = #{job},
+            salary = #{salary},
+            image = #{image},
+            entry_date = #{entryDate},
+            dept_id = #{deptId},
+            update_time = #{updateTime}
+        WHERE
+            id = #{id};
+    </update>
+    <!--批量删除员工的基本信息-->
+    <!--第一次写的时候忘记在每个id后面添加，导致批量删除失败，而单个删除成功，又因为员工信息和员工经验删除是一个事务两个绑定到一起了，所以两个都要加,逻辑上来说也是要加,的-->
+    <delete id="deleteByIds">
+        delete from emp where id in
+                    <foreach collection="ids" separator="," item="id" open="(" close=")">
+                        #{id}
+                    </foreach>
+    </delete>
+    <!--concat字符串拼接,如果直接定义模糊查询的'%#{name}%'那么会将他识别成一个字符串，那么就会造成四个参数传进去只有三个位置-->
     <!--所以用concat就可以解决这个问题-->
     <select id="list" resultType="org.example.tliaswebmanagement.pojo.Emp">
         select e.*,d.name from emp e left join dept d on e.dept_id = d.id
@@ -19,6 +47,45 @@
                 </if>
             </where>
         order by e.update_time desc
+    </select>
+    <!-- 定义 ResultMap -->
+    <resultMap id="empResultMap" type="org.example.tliaswebmanagement.pojo.Emp">
+        <!-- 映射 emp 表 -->
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+        <result property="gender" column="gender"/>
+        <result property="phone" column="phone"/>
+        <result property="job" column="job"/>
+        <result property="salary" column="salary"/>
+        <result property="image" column="image"/>
+        <result property="entryDate" column="entryDate"/>
+        <result property="deptId" column="deptId"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="deptName" column="deptName"/>
+
+        <!-- 映射 emp_expr 表 (一对多) -->
+        <collection property="exprList" ofType="org.example.tliaswebmanagement.pojo.EmpExpr">
+            <id property="id" column="ee_empid"/>
+            <result property="begin" column="ee_begin"/>
+            <result property="end" column="ee_end"/>
+            <result property="company" column="ee_company"/>
+            <result property="job" column="ee_job"/>
+        </collection>
+    </resultMap>
+    <!--回显员工的工作经历-->
+    <select id ="getById" resultMap="empResultMap">
+        select e.* ,
+               ee.id ee_empid,
+               ee.begin ee_begin,
+               ee.end ee_end,
+               ee.company ee_company,
+               ee.job ee_job
+        from emp e left join emp_expr ee on e.id = ee.emp_id
+        where e.id = #{id};
+
     </select>
 
 </mapper>
