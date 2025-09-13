@@ -5,23 +5,49 @@
 <mapper namespace="org.example.tliaswebmanagement.mapper.EmpMapper">
 
     <!--根据id更新员工的数据-->
+    <update id="updateEmpDynamic">
+        UPDATE emp
+            /*set标签：自动生成set关键字，自动的删除生成之后的逗号*/
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="job != null">
+                job = #{job},
+            </if>
+            <if test="salary != null">
+                salary = #{salary},
+            </if>
+            <if test="image != null and image != ''">
+                image = #{image},
+            </if>
+            <if test="entryDate != null">
+                entry_date = #{entryDate},
+            </if>
+            <if test="deptId != null">
+                dept_id = #{deptId},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
 
     <update id="updateById">
-        UPDATE emp
-        SET
-            username = #{username},
-            password = #{password},
-            name = #{name},
-            gender = #{gender},
-            phone = #{phone},
-            job = #{job},
-            salary = #{salary},
-            image = #{image},
-            entry_date = #{entryDate},
-            dept_id = #{deptId},
-            update_time = #{updateTime}
-        WHERE
-            id = #{id};
+
     </update>
     <!--批量删除员工的基本信息-->
     <!--第一次写的时候忘记在每个id后面添加，导致批量删除失败，而单个删除成功，又因为员工信息和员工经验删除是一个事务两个绑定到一起了，所以两个都要加,逻辑上来说也是要加,的-->
