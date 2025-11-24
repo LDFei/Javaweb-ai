@@ -48,7 +48,7 @@ public class DeptController {
     {
         System.out.println("\n");
 //        System.out.println("添加的部门名称为: " + dept);
-        log.info("删除部门的id为:{}" , dept);
+        log.info("添加部门的名称为:{}" , dept);
         deptService.add(dept);
         System.out.println("\n");
         return Result.success();
@@ -59,7 +59,7 @@ public class DeptController {
     {
         System.out.println("\n");
 //        System.out.println("查询的部门ID为: " + id);
-        log.info("删除部门的id为:{}" , id);
+        log.info("根据id查询部门:{}" , id);
         Dept dept = deptService.getById(id);
         System.out.println("\n");
         return Result.success(dept);
@@ -71,7 +71,7 @@ public class DeptController {
     {
         System.out.println("\n");
 //        System.out.println("修改的部 门为:" + dept);
-        log.info("删除部门的id为:{}" , dept);
+        log.info("修改部门的数据:{}" , dept);
         deptService.update(dept);
         System.out.println("\n");
         return Result.success();
