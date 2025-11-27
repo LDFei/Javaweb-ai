@@ -5,7 +5,7 @@
     <title>上传文件</title>
 </head>
 <body>
-
+<!--enctype="multipart/form-data会把提交的文件的内容给提交上去，如果没有这个标签，那么只会提交文件的名称-->
     <form action="/upload" method="post" enctype="multipart/form-data">
         姓名: <input type="text" name="name"><br>
         年龄: <input type="text" name="age"><br>

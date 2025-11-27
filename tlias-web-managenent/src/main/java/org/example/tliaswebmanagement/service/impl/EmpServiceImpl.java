@@ -31,6 +31,7 @@ public class EmpServiceImpl implements EmpService {
     private EmpLogService empLogService;
     /*————————————————————————————————————————————————————原始分页查询的实现代码——————————————————————————————————-*/
 //    @Override
+    //如果要给传递过来的数据设置默认值，用requestparam(de = "1")这种加到传进的参数前面
 //    public PageResult<Emp> page(Integer page, Integer pageSize) {
 //        Long total = empMapper.count();
 //        Integer start = (page - 1) * pageSize;
@@ -39,7 +40,7 @@ public class EmpServiceImpl implements EmpService {
 //        return new PageResult<Emp>(total,rows);
 //    }
 
-    /*基于pagehelper实现分页查询*/
+    /*基于pagehelper实现分页条件查询*/
 //    @Override
 //    public PageResult<Emp> page(Integer page, Integer pageSize,String name, Integer gender,
 //                                LocalDate begin, LocalDate end) {
@@ -71,7 +72,7 @@ public class EmpServiceImpl implements EmpService {
             emp.setUpdateTime(LocalDateTime.now());
             empMapper.insert(emp);
 
-
+            //int i = 1/0;
             //员工的工作经历信息
             List<EmpExpr> exprList = emp.getExprList();
             //判断工作经历是否为空：

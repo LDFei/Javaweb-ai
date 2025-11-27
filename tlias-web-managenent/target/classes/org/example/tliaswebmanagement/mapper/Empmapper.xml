@@ -46,8 +46,22 @@
         WHERE id = #{id}
     </update>
 
-    <update id="updateById">
+    <update id="updateById" parameterType="org.example.tliaswebmanagement.pojo.Emp">
+        update emp
+        <set>
+            <if test="username != null and username != ''">username = #{username},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="phone != null and phone != ''">phone = #{phone},</if>
+            <if test="job != null">job = #{job},</if>
+            <if test="salary != null">salary = #{salary},</if>
+            <if test="image != null and image != ''">image = #{image},</if>
+            <if test="entryDate != null">entry_date = #{entryDate},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
 
+            update_time = #{updateTime}
+        </set>
+        where id = #{id}
     </update>
     <!--批量删除员工的基本信息-->
     <!--第一次写的时候忘记在每个id后面添加，导致批量删除失败，而单个删除成功，又因为员工信息和员工经验删除是一个事务两个绑定到一起了，所以两个都要加,逻辑上来说也是要加,的-->
