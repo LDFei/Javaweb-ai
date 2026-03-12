@@ -22,6 +22,8 @@ public class AliyunOSSOperator {
 //    private String bucketName;
 //    @Value("${aliyun.oss.region}")
 //    private String region;
+
+    //封装到一个对象里面，用configproreties这个注解，然后引用配置文件信息就可以了
     @Autowired
     AliyunOSSProperties aliyunOSSProperties;
 

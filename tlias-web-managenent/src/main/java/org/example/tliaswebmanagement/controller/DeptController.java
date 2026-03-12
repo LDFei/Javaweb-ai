@@ -1,7 +1,6 @@
 package org.example.tliaswebmanagement.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Delete;
 import org.example.tliaswebmanagement.pojo.Dept;
 import org.example.tliaswebmanagement.pojo.Result;
 import org.example.tliaswebmanagement.service.DeptService;
@@ -70,7 +69,7 @@ public class DeptController {
     public Result update(@RequestBody Dept dept)
     {
         System.out.println("\n");
-//        System.out.println("修改的部 门为:" + dept);
+//       System.out.println("修改的部 门为:" + dept);
         log.info("修改部门的数据:{}" , dept);
         deptService.update(dept);
         System.out.println("\n");

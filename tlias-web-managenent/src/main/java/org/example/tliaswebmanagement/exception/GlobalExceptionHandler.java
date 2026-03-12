@@ -3,7 +3,6 @@ package org.example.tliaswebmanagement.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.example.tliaswebmanagement.pojo.Result;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 
@@ -17,6 +16,7 @@ public class GlobalExceptionHandler {
         return Result.error("出错辣，请联系管理员");
     }
 
+    //异常匹配是按照继承关系从下往上匹配
     @ExceptionHandler
     public Result handleDuplicatekeyException(DuplicateKeyException e)
     {
