@@ -22,4 +22,7 @@ public interface EmpService {
 
     //修改员工信息：
     void upDate(Emp emp);
+
+
+    List<Emp> list_emp();
 }

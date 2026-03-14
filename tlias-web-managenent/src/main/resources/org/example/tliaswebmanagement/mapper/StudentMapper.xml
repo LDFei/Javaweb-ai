@@ -4,16 +4,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.tliaswebmanagement.mapper.StudentMapper">
 
+    <delete id="delete">
+        DELETE FROM student WHERE id in
+                            <foreach collection="ids" separator="," item="id" open="(" close=")">
+                                    #{id}
+                            </foreach>
+    </delete>
+
     <select id="list" resultType="org.example.tliaswebmanagement.pojo.Student">
         SELECT e.*,d.name as clazzName from student e left join clazz d on e.clazz_id = d.id
         <where>
-        <if test="name != null and name != ' '">
+        <if test="name != null and name != ''">
             e.name like concat('%',#{name},'%')
         </if>
-        <if test="clazzId != null and clazzId != ' '">
+        <if test="clazzId != null">
             and e.clazz_id like concat('%',#{clazzId},'%')
         </if>
-        <if test="degree != null and degree != ' '">
+        <if test="degree != null">
             and e.degree like concat('%',#{degree},'%')
         </if>
         </where>

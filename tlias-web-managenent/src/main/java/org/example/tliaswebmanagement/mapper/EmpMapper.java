@@ -54,4 +54,9 @@ public interface EmpMapper {
     //统计员工的性别数量:
     @MapKey("name")
     List<Map<String,Object>> countEmpGenderData();
+
+
+
+    @Select("SELECT * FROM emp")
+    List<Emp> list_emp();
 }

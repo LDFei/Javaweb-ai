@@ -10,6 +10,8 @@ import org.example.tliaswebmanagement.service.ClazzService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ClazzServiceImpl implements ClazzService {
     @Autowired
@@ -22,5 +24,12 @@ public class ClazzServiceImpl implements ClazzService {
         Page<Class> p = (Page<Class>) clazzMapper.list(classQueryParam);
 
         return new PageResult<Class>(p.getTotal(),p.getResult());
+    }
+
+    @Override
+    public List<Class> list() {
+        List<Class> clazz = clazzMapper.findall();
+
+        return clazz;
     }
 }

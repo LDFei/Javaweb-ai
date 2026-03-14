@@ -8,6 +8,8 @@ import org.example.tliaswebmanagement.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StudentServiceImpl implements StudentService {
     @Autowired
@@ -20,5 +22,15 @@ public class StudentServiceImpl implements StudentService {
         Page<Student> p = (Page<Student>) studentMapper.list(studentQueryParam);
 
         return new PageResult<>(p.getTotal(),p.getResult());
+    }
+
+    @Override
+    public void delete(List<Integer> ids) {
+        studentMapper.delete(ids);
+    }
+
+    @Override
+    public void save(Student student) {
+        studentMapper.save(student);
     }
 }

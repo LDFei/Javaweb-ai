@@ -3,21 +3,17 @@ package org.example.tliaswebmanagement.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.example.tliaswebmanagement.mapper.EmpExprMapper;
-import org.example.tliaswebmanagement.mapper.EmpLogMapper;
 import org.example.tliaswebmanagement.mapper.EmpMapper;
 import org.example.tliaswebmanagement.pojo.*;
 import org.example.tliaswebmanagement.service.EmpLogService;
 import org.example.tliaswebmanagement.service.EmpService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -138,7 +134,11 @@ public class EmpServiceImpl implements EmpService {
 
     }
 
-
+    @Override
+    public List<Emp> list_emp() {
+        List<Emp> emp = empMapper.list_emp();
+        return emp;
+    }
 
 
 }
