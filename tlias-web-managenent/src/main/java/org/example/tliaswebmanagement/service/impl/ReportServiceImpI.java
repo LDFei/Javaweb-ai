@@ -1,8 +1,12 @@
 package org.example.tliaswebmanagement.service.impl;
 
 import org.example.tliaswebmanagement.mapper.EmpMapper;
+import org.example.tliaswebmanagement.mapper.StudentMapper;
 import org.example.tliaswebmanagement.pojo.JobOption;
+import org.example.tliaswebmanagement.pojo.Student;
+import org.example.tliaswebmanagement.pojo.StudentOption;
 import org.example.tliaswebmanagement.service.ReportService;
+import org.example.tliaswebmanagement.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +20,8 @@ public class ReportServiceImpI implements ReportService {
     @Autowired
     private EmpMapper empMapper;
 
+    @Autowired
+    private StudentMapper studentMapper;
     @Override
     public JobOption getEmpJobData() {
         //第一步调用mapper层
@@ -31,6 +37,32 @@ public class ReportServiceImpI implements ReportService {
     @Override
     public List<Map<String, Object>> getEmpGenderData() {
         return empMapper.countEmpGenderData();
+    }
+
+    @Override
+    public List<Map<String, Integer>> getStudentDegreeDate() {
+
+        return studentMapper.conuntStudentDegreeDate();
+    }
+
+    @Override
+    public StudentOption getStudentcountData() {
+        List<Map<String,Object>> mp = studentMapper.getStudentCountData();
+
+
+        List<Object> clazzList = mp
+                .stream()
+                .map(dataMap -> dataMap.get("pos"))
+                .toList();
+
+        List<Object> dataList = mp
+                .stream()
+                .map(dataMap -> dataMap.get("num"))
+                .toList();
+
+
+        return new StudentOption(clazzList,dataList);
+
     }
 
 

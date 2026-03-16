@@ -34,4 +34,24 @@
         </where>
         order by e.update_time desc
     </select>
+
+    <select id="conuntStudentDegreeDate" resultType="java.util.Map">
+    SELECT
+                (CASE
+                WHEN s.degree = '1' THEN "初中"
+                WHEN s.degree = '2' THEN "高中"
+                WHEN s.degree = '3' THEN "大专"
+                WHEN s.degree = '4' THEN "本科"
+                WHEN s.degree = '5' THEN "硕士"
+                WHEN s.degree = '6' THEN "博士"
+                END
+                )AS name,
+        COUNT(*) AS value FROM student s GROUP BY s.degree
+
+    </select>
+
+    <select id="getStudentCountData" resultType="java.util.Map">
+        SELECT c.name pos, count(*) num
+        FROM student s LEFT JOIN clazz c ON s.clazz_id = c.id GROUP BY c.name ORDER BY num
+    </select>
 </mapper>

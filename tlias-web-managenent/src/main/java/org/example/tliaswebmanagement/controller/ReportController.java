@@ -3,6 +3,7 @@ package org.example.tliaswebmanagement.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.example.tliaswebmanagement.pojo.JobOption;
 import org.example.tliaswebmanagement.pojo.Result;
+import org.example.tliaswebmanagement.pojo.StudentOption;
 import org.example.tliaswebmanagement.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,24 @@ public class ReportController {
         log.info("统计员工性别数量");
         List<Map<String, Object>> jobOption = reportService.getEmpGenderData();
         return Result.success(jobOption);
+    }
+
+    @GetMapping("/studentDegreeData")
+    public Result getStudentDegreeDate()
+    {
+        log.info("统计学生学历");
+
+        List<Map<String,Integer>> sutudentDegreeDate = reportService.getStudentDegreeDate();
+
+        return Result.success(sutudentDegreeDate);
+    }
+
+    @GetMapping("/studentCountData")
+    public Result getStudentCountDate()
+    {
+        log.info("班级人数统计");
+        StudentOption studentOption = reportService.getStudentcountData();
+        return Result.success(studentOption);
     }
 
 }

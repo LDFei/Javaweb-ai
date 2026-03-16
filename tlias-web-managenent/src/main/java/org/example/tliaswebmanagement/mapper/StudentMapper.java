@@ -5,6 +5,7 @@ import org.example.tliaswebmanagement.pojo.Student;
 import org.example.tliaswebmanagement.pojo.StudentQueryParam;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface StudentMapper {
@@ -32,4 +33,10 @@ public interface StudentMapper {
 
 
     void score(Integer id, Integer score);
+
+    @MapKey("name")
+    List<Map<String, Integer>> conuntStudentDegreeDate();
+
+    @MapKey("pos")
+    List<Map<String, Object>> getStudentCountData();
 }
