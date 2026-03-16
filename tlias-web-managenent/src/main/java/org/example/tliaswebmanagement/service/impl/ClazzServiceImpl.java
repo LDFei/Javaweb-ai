@@ -10,6 +10,7 @@ import org.example.tliaswebmanagement.service.ClazzService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -30,6 +31,28 @@ public class ClazzServiceImpl implements ClazzService {
     public List<Class> list() {
         List<Class> clazz = clazzMapper.findall();
 
+        return clazz;
+    }
+
+    @Override
+    public void delete(Integer id) {
+        clazzMapper.delete(id);
+    }
+
+    @Override
+    public void save(Class clazz) {
+        clazzMapper.save(clazz);
+    }
+
+    @Override
+    public void update(Class clazz) {
+        clazz.setUpdateTime(LocalDateTime.now());
+        clazzMapper.update(clazz);
+    }
+
+    @Override
+    public Class findById(Integer id) {
+        Class clazz =  clazzMapper.finById(id);
         return clazz;
     }
 }

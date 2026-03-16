@@ -3,6 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.tliaswebmanagement.mapper.StudentMapper">
+    <update id="score">
+        UPDATE student SET
+        violation_score = CASE
+        WHEN violation_score &lt; #{score} THEN 0
+        ELSE violation_score - #{score}
+        END
+        WHERE id = #{id}
+    </update>
 
     <delete id="delete">
         DELETE FROM student WHERE id in

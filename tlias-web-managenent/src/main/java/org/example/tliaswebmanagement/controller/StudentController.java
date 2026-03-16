@@ -40,4 +40,28 @@ public class StudentController {
         return Result.success();
     }
 
+    @GetMapping("{id}")
+    public Result findById(@PathVariable Integer id)
+    {
+        log.info("根据Id查询对应的学生信息：{}",id);
+        Student student = studentService.findById(id);
+        return Result.success(student);
+    }
+
+    @PutMapping()
+    public Result update(@RequestBody Student student)
+    {
+        log.info("更新{}学生数据",student);
+        studentService.update(student);
+        return Result.success();
+    }
+
+    @PutMapping("/violation/{id}/{score}")
+    public Result score(@PathVariable Integer id,
+                        @PathVariable Integer score)
+    {
+        log.info("扣除{}学生{}分数:",id,score);
+        studentService.score(id,score);
+        return Result.success();
+    }
 }

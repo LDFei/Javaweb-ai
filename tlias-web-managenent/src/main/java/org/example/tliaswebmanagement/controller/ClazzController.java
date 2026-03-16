@@ -5,10 +5,9 @@ import org.example.tliaswebmanagement.pojo.*;
 import org.example.tliaswebmanagement.pojo.Class;
 import org.example.tliaswebmanagement.service.ClazzService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -36,4 +35,40 @@ public class ClazzController {
 
         return Result.success(clazz);
     }
+
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Integer id)
+    {
+        log.info("班级删除功能");
+
+        clazzService.delete(id);
+        return Result.success();
+    }
+
+    @PostMapping
+    public Result save(@RequestBody Class clazz)
+    {
+        log.info("班级新增功能,新增数据为:{}",clazz);
+
+        clazzService.save(clazz);
+        return Result.success();
+    }
+
+    @PutMapping
+    public Result update(@RequestBody Class clazz)
+    {
+        log.info("修改班级信息");
+
+        clazzService.update(clazz);
+        return Result.success();
+    }
+
+    @GetMapping("{id}")
+    public Result findById(@PathVariable Integer id)
+    {
+        log.info("班级修改功能数据回显：{}",id);
+        Class clazz = clazzService.findById(id);
+        return Result.success(clazz);
+    }
+
 }

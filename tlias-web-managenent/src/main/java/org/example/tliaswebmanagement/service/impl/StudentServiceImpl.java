@@ -33,4 +33,20 @@ public class StudentServiceImpl implements StudentService {
     public void save(Student student) {
         studentMapper.save(student);
     }
+
+    @Override
+    public Student findById(Integer id) {
+        Student student = studentMapper.findById(id);
+        return student;
+    }
+
+    @Override
+    public void update(Student student) {
+        studentMapper.update(student);
+    }
+
+    @Override
+    public void score(Integer id, Integer score) {
+        studentMapper.score(id,score);
+    }
 }
