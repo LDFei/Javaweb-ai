@@ -2,6 +2,7 @@ package org.example.tliaswebmanagement.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.example.tliaswebmanagement.mapper.EmpExprMapper;
 import org.example.tliaswebmanagement.mapper.EmpMapper;
 import org.example.tliaswebmanagement.pojo.*;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+@Slf4j
 @Service
 public class EmpServiceImpl implements EmpService {
     @Autowired
@@ -138,6 +140,17 @@ public class EmpServiceImpl implements EmpService {
     public List<Emp> list_emp() {
         List<Emp> emp = empMapper.list_emp();
         return emp;
+    }
+
+    @Override
+    public LoginInfo login(Emp emp) {
+        Emp e = empMapper.login(emp);
+        if(e != null)
+        {
+            log.info("登录成功，员工信息为{}",e);
+            return new LoginInfo(e.getName(),e.getUsername(),e.getId(),"");
+        }
+        return null;
     }
 
 

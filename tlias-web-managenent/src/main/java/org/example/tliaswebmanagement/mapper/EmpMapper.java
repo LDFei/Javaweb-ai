@@ -59,4 +59,7 @@ public interface EmpMapper {
 
     @Select("SELECT * FROM emp")
     List<Emp> list_emp();
+
+    @Select("SELECT id,username,name FROM emp WHERE username = #{username} AND password = #{password}")
+    Emp login(Emp emp);
 }
