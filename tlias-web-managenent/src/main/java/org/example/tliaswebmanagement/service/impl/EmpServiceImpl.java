@@ -8,6 +8,7 @@ import org.example.tliaswebmanagement.mapper.EmpMapper;
 import org.example.tliaswebmanagement.pojo.*;
 import org.example.tliaswebmanagement.service.EmpLogService;
 import org.example.tliaswebmanagement.service.EmpService;
+import org.example.tliaswebmanagement.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,9 @@ import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -148,7 +151,13 @@ public class EmpServiceImpl implements EmpService {
         if(e != null)
         {
             log.info("登录成功，员工信息为{}",e);
-            return new LoginInfo(e.getName(),e.getUsername(),e.getId(),"");
+            //生成 token ，JWT令牌
+            Map<String,Object> claims = new HashMap<>();
+            claims.put("id",e.getId());
+            claims.put("username",e.getUsername());
+            String jwt = JwtUtils.generateJwt(claims);
+
+            return new LoginInfo(e.getName(),e.getUsername(),e.getId(),jwt);
         }
         return null;
     }

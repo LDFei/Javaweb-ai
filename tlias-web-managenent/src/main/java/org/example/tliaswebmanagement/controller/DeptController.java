@@ -1,6 +1,7 @@
 package org.example.tliaswebmanagement.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.tliaswebmanagement.anno.Log;
 import org.example.tliaswebmanagement.pojo.Dept;
 import org.example.tliaswebmanagement.pojo.Result;
 import org.example.tliaswebmanagement.service.DeptService;
@@ -31,6 +32,7 @@ public class DeptController {
 
     }
 
+    @Log
     @DeleteMapping
     public Result delete(Integer id)
     {
@@ -41,7 +43,7 @@ public class DeptController {
         System.out.println("\n");
         return Result.success();
     }
-
+    @Log
     @PostMapping
     public Result add(@RequestBody Dept dept)
     {
@@ -64,7 +66,7 @@ public class DeptController {
         return Result.success(dept);
     }
 
-
+    @Log
     @PutMapping
     public Result update(@RequestBody Dept dept)
     {
